@@ -1,11 +1,19 @@
 // tb.v
-// Starter testbench template -- YOU complete this file.
+// Completed testbench
 
 module tb;
 
-  // TODO: declare the inputs and outputs
+  // Declare inputs as reg and outputs as wire
+  // $clog2(4) = 2 bits (1:0) for sel
+  // WIDTH = 8 bits (7:0) for dout
+  reg  [1:0] t_sel;
+  wire [7:0] t_dout;
 
-  // TODO: instantiate DUT here
+  // Instantiate DUT
+  lut DUT (
+    .sel  (t_sel),
+    .dout (t_dout)
+  );
 
   // Waveform dump configuration (DO NOT CHANGE)
   string vcd_file;
@@ -17,11 +25,16 @@ module tb;
   end
 
   initial begin
-    // TODO: apply different input combinations
-
+    // Apply all 4 possible selection values, 5 time units apart
+    t_sel = 2'd0; #5;
+    t_sel = 2'd1; #5;
+    t_sel = 2'd2; #5;
+    t_sel = 2'd3; #5;
+    
+    $finish;
   end
 
   initial
-    $monitor($time, " I0=%b I1=%b S=%b | Y=%b", t_i0, t_i1, t_s, t_y); // change as required
+    $monitor($time, " sel=%d | dout=%d", t_sel, t_dout);
 
 endmodule
